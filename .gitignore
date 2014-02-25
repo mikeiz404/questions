@@ -1,0 +1,9 @@
+# python
+*.pyc
+project.egg-info
+
+# ide
+.idea
+
+# virtualenv
+.env
