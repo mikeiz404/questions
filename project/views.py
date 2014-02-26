@@ -9,23 +9,6 @@ from pymongo.errors import OperationFailure
 
 log = logging.getLogger(__name__)
 
-def add_question(request, question):
-    pass
-
-def remove_requestion(question):
-    pass
-
-def search_questions(es, keywords):
-    print keywords
-    try:
-        #questions = es_search({"query": {"match_all": {}}})
-        questions = Question.search(es, {"query":{"term":{"content": keywords}}})
-        print questions
-    except NotFoundError as error:
-        log.debug('Search NotFoundError: %s.' % error)
-        questions = []
-    return questions
-
 @view_config(route_name='list', renderer='list.mako')
 def list_view(request):
     if request.method == 'POST':
