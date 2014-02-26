@@ -1,9 +1,15 @@
 from pyramid.config import Configurator
+import os
 
 def main(global_config, **settings):
     """
     This function returns a WSGI application.
     """
+    # heroku addons
+    elastic_uri = os.environ.get('BONSAI_URL')
+    settings['elastic.uri'] = elastic_uri
+    mongo_uri = os.environ.get('MONGOHQ_URL')
+    settings['mongo.uri'] = mongo_uri
     config = Configurator(settings=settings)
     # set static dir
     config.add_static_view('static', 'project:static')
