@@ -104,10 +104,13 @@ class ElasticSyncedDocument(MongoDocument):
 
 
 def includeme(config):
+    """
+    Configures MongoDocument and ElasticSyncedDocument to use connections with settings defined in pyramid config
+    """
     settings = config.registry.settings
     # create connections
-    mongodb = MongoClient(settings['mongo.uri'])
-    elastic = Elasticsearch(settings['elastic.uri'])
+    mongodb = MongoClient(settings.get('mongo.uri'))
+    elastic = Elasticsearch(settings.get('elastic.uri'))
     # inject in models
     MongoDocument._mongodb = mongodb
     ElasticSyncedDocument._elastic = elastic
