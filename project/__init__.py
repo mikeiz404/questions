@@ -11,8 +11,8 @@ def main(global_config, **settings):
     config = Configurator(settings=settings, root_factory=Root)
     # set static dir
     config.add_static_view('static', 'project:static')
-    # set templating
-    config.include('pyramid_chameleon')
+    # add mako templating
+    config.include('pyramid_mako')
     # setup mongodb
     db_uri = settings['mongodb.url']
     dbc = MongoClient(db_uri)
@@ -26,6 +26,11 @@ def main(global_config, **settings):
         event.request.db_conn = db_conn
         event.request.db = db
     config.add_subscriber(add_mongo_db, NewRequest)
+    # setup routes
+    config.add_route('list', '/')
+    config.add_route('ask', '/ask')
+    config.add_route('remove', '/remove/{id}')
+    config.add_route('search', '/search')
     # scan project
     config.scan('project')
     return config.make_wsgi_app()
