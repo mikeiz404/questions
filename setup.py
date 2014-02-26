@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 here = os.path.abspath(os.path.dirname(__file__))
 README = open(os.path.join(here, 'README.txt')).read()
 
-requires = ['pyramid', 'pyramid_chameleon', 'WebError', 'pymongo']
+requires = ['pyramid', 'pyramid_chameleon', 'WebError', 'pymongo', 'elasticsearch', 'pyramid_mako']
 
 setup(name='project',
       version='0.0',
