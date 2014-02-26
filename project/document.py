@@ -1,4 +1,5 @@
 from elasticsearch import Elasticsearch
+from elasticsearch import RequestsHttpConnection
 from pymongo import MongoClient
 from bson import ObjectId
 
@@ -110,7 +111,7 @@ def includeme(config):
     settings = config.registry.settings
     # create connections
     mongodb = MongoClient(settings.get('mongo.uri'))
-    elastic = Elasticsearch(settings.get('elastic.uri'))
+    elastic = Elasticsearch(settings.get('elastic.uri'), connection_class=RequestsHttpConnection)
     # inject in models
     MongoDocument._mongodb = mongodb
     ElasticSyncedDocument._elastic = elastic

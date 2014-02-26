@@ -1,3 +1,4 @@
+requests
 waitress
 Chameleon==2.14
 Mako==0.9.1
