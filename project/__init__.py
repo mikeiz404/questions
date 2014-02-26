@@ -1,11 +1,10 @@
 from pyramid.config import Configurator
-from project.resources import Root
 
 def main(global_config, **settings):
     """
     This function returns a WSGI application.
     """
-    config = Configurator(settings=settings, root_factory=Root)
+    config = Configurator(settings=settings)
     # set static dir
     config.add_static_view('static', 'project:static')
     # add mako templating
