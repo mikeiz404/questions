@@ -1,11 +1,4 @@
 from pyramid.config import Configurator
-from pyramid.events import NewRequest
-from pymongo import MongoClient
-import mongoengine
-from project.elastic import get_elastic_search
-from project.elastic import get_es_search
-from project.elastic import get_es_index
-
 from project.resources import Root
 
 def main(global_config, **settings):
@@ -19,10 +12,6 @@ def main(global_config, **settings):
     config.include('pyramid_mako')
     # add mongo db
     config.include('pyramid_mongo')
-    # add elastic
-    config.set_request_property(get_elastic_search, 'elastic_search')
-    config.set_request_property(get_es_search, 'es_search')
-    config.set_request_property(get_es_index, 'es_index')
     # setup routes
     config.add_route('list', '/')
     config.add_route('ask', '/ask')
