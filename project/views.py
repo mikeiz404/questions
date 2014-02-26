@@ -1,6 +1,7 @@
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPClientError
 from pyramid.httpexceptions import HTTPFound
+from project.models import Question
 from bson import ObjectId
 import logging
 
@@ -8,7 +9,8 @@ log = logging.getLogger(__name__)
 
 @view_config(route_name='list', renderer='list.mako')
 def list_view(request):
-    return {'questions': [{'content': 'q1', 'id': 0}, {'content': 'q1', 'id': 1}, {'content': 'q1', 'id': 2}]}
+    questions = Question.objects
+    return {'questions': questions}
 
 @view_config(route_name='ask')
 def ask_view(request):
@@ -16,8 +18,9 @@ def ask_view(request):
         content = request.POST.get('content')
         if content:
             # save question
-            #todo: db
             log.debug('Adding question content: "%s"', content)
+            question = Question(content=content)
+            question.save()
         else:
             # invalid question
             log.debug('Invalid question content: "%s"', content)
@@ -27,6 +30,11 @@ def ask_view(request):
 @view_config(route_name='remove')
 def remove_view(request):
     id = request.matchdict['id']
-    log.debug('Removing question with id: "%s"', id)
-    #todo: db
+    question = Question.objects(id=id)
+    if question:
+        log.debug('Removing question with id: "%s"', id)
+        question.delete()
+    else:
+        log.debug('Invalid question id: "%s"', id)
+        return HTTPClientError('Invalid Request: Question does not exist.')
     return HTTPFound(location=request.route_url('list'))
