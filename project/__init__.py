@@ -10,8 +10,8 @@ def main(global_config, **settings):
     config.add_static_view('static', 'project:static')
     # add mako templating
     config.include('pyramid_mako')
-    # add mongo db
-    config.include('pyramid_mongo')
+    # add document
+    config.include('project.document')
     # setup routes
     config.add_route('list', '/')
     config.add_route('ask', '/ask')
